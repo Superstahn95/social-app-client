@@ -14,7 +14,7 @@ function MyPostWidget() {
           <div className="flex-1 ">
             <input
               type="text"
-              className="w-full py-4 px-1 rounded-xl outline-none "
+              className="w-full py-4 px-1 rounded-xl outline-none dark:bg-slate-900"
               placeholder="What's on your mind?"
             />
           </div>
@@ -25,7 +25,7 @@ function MyPostWidget() {
             <span className="text-sm">Add Image</span>
           </div>
 
-          <button className="bg-blue-500 rounded-xl w-[6rem] py-1 text-white">
+          <button className="bg-blue-500 dark:bg-white dark:text-slate-900 rounded-xl w-[6rem] py-1 text-white">
             Post
           </button>
         </div>

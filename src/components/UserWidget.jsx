@@ -11,7 +11,7 @@ function UserWidget() {
     "https://cdn.pixabay.com/photo/2014/04/03/10/32/user-310807_1280.png";
   return (
     <WidgetWrapper>
-      <div className="flex items-center justify-between py-2 border-b border-black/40">
+      <div className="flex items-center justify-between py-2 border-b border-black/40 dark:text-white">
         <Link to={"/profile/id"} className="flex items-center cursor-pointer">
           <UserImage image={imageAddress} />
           <div>
@@ -21,7 +21,7 @@ function UserWidget() {
         </Link>
         <button>Add</button>
       </div>
-      <div className="flex-col justify-center space-y-3  py-2 border-b border-black/40">
+      <div className="flex-col justify-center space-y-3  py-2 border-b border-black/40 dark:text-white">
         <div className="flex items-center space-x-1">
           <IoLocationOutline />
           <p className=" text-sm">Your location</p>
@@ -32,23 +32,23 @@ function UserWidget() {
         </div>
       </div>
 
-      <div className="flex-col justify-center space-y-3  py-2 border-b border-black/40">
+      <div className="flex-col justify-center space-y-3  py-2 border-b border-black/40 dark:text-white">
         <div className="flex justify-between items-center ">
           <p className=" text-sm">Profile views</p>
           <span>3563</span>
         </div>
-        <div className="flex justify-between items-center ">
+        <div className="flex justify-between items-center dark:text-white">
           <p className=" text-sm">Post impressions</p>
           <span>5243</span>
         </div>
       </div>
 
       {/* social links */}
-      <div className="flex-col justify-center space-y-3  py-2 border-b border-black/40 mb-1">
+      <div className="flex-col justify-center space-y-3  py-2 border-b border-black/40 mb-1 dark:text-white">
         <p className="font-bold text-lg">Social Profiles</p>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <FaTwitter className="text-blue-500" />
+            <FaTwitter className="text-blue-500 dark:text-white" />
             <div>
               <p className="font-semibold text-sm">Twitter</p>
               <p className=" text-sm">Not added</p>
@@ -61,7 +61,7 @@ function UserWidget() {
 
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <FaLinkedin className="text-blue-500" />
+            <FaLinkedin className="text-blue-500 dark:text-white" />
             <div>
               <p className="font-semibold text-sm">LinkedIn</p>
               <p className=" text-sm">Not added</p>
