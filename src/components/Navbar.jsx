@@ -21,7 +21,7 @@ function Navbar({ isSignIn = false }) {
     <nav className=" p-5 shadow-md bg-slate-200 dark:bg-slate-900">
       <Container>
         <div className="font-montserrat flex items-center justify-between ">
-          <Link to={"/home"} className="font-bold text-2xl dark:text-white">
+          <Link to={"/"} className="font-bold text-2xl dark:text-white">
             {" "}
             SocialApp
           </Link>

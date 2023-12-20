@@ -5,18 +5,45 @@ import { GoBriefcase } from "react-icons/go";
 import { FaTwitter, FaLinkedin } from "react-icons/fa";
 import { FaRegPenToSquare } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axiosInstance from "../api/axiosInstance";
+import useAuth from "../hooks/useAuth";
 
-function UserWidget() {
-  const imageAddress =
-    "https://cdn.pixabay.com/photo/2014/04/03/10/32/user-310807_1280.png";
+function UserWidget({ userId }) {
+  const { auth } = useAuth();
+  const token = auth?.token;
+
+  const [user, setUser] = useState(null);
+  console.log(auth?.user);
+  const getUser = async () => {
+    try {
+      const response = await axiosInstance.get(`/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Getting user.....");
+      console.log(response);
+      setUser(response.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUser();
+  }, []);
+  console.log(user);
+  const imageAddress = user?.profilePicture
+    ? user?.profilePicture.secure_url
+    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
   return (
     <WidgetWrapper>
       <div className="flex items-center justify-between py-2 border-b border-black/40 dark:text-white">
         <Link to={"/profile/id"} className="flex items-center cursor-pointer">
           <UserImage image={imageAddress} />
           <div>
-            <p className="font-bold text-lg">Unknown User</p>
-            <p className=" text-sm">0 friends</p>
+            <p className="font-bold text-lg">{user?.firstName}</p>
+            <p className=" text-sm">{user?.friends.length} friends</p>
           </div>
         </Link>
         <button>Add</button>
@@ -24,11 +51,11 @@ function UserWidget() {
       <div className="flex-col justify-center space-y-3  py-2 border-b border-black/40 dark:text-white">
         <div className="flex items-center space-x-1">
           <IoLocationOutline />
-          <p className=" text-sm">Your location</p>
+          <p className=" text-sm capitalize">{user?.location}</p>
         </div>
         <div className="flex items-center space-x-1">
           <GoBriefcase />
-          <p className=" text-sm">Your occupation</p>
+          <p className=" text-sm capitalize">{user?.occupation}</p>
         </div>
       </div>
 

@@ -3,6 +3,8 @@ import * as yup from "yup";
 // import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../api/axiosInstance";
 import { useState } from "react";
+import useAuth from "../hooks/useAuth";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -29,11 +31,16 @@ const loginInitialValues = {
   password: "",
 };
 const formInputClass =
-  "border border-gray-500 outline-none p-2 w-full rounded-md ";
+  "border border-gray-500 outline-none p-2 w-full rounded-md dark:text-black";
 const errorClass = "text-red-500  text-xs capitalize";
+
 function Form() {
   const [pageType, setPageType] = useState("register");
   const [image, setImage] = useState(null);
+  const { setAuth } = useAuth(); //gotten from auth context to set the user
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   //   const dispatch = useDispatch();
   //returning booleans to know if we are on the login or the register
   const isLogin = pageType === "login";
@@ -43,16 +50,36 @@ function Form() {
     const formData = new FormData();
     for (let value in values) {
       formData.append(value, values[value]);
-      if (image) {
-        formData.append("profilePicture", image);
-      }
+    }
+    if (image) {
+      formData.append("profilePicture", image);
     }
     console.log("Submitting form....");
     console.log(values);
+    try {
+      const response = await axiosInstance.post("/auth/register", formData);
+      console.log(response);
+      setPageType("login");
+    } catch (error) {
+      console.log(error);
+    }
   };
   const loginUser = async (values, onSubmitProps) => {
     console.log("Logging in....");
     console.log(values);
+    try {
+      const response = await axiosInstance.post("/auth/login", values);
+      console.log(response);
+
+      setAuth({
+        user: response.data.user,
+        token: response.data.token,
+      });
+      onSubmitProps.resetForm();
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleFormSubmit = (values, onSubmitProps) => {
@@ -75,7 +102,7 @@ function Form() {
         handleSubmit,
       }) => {
         return (
-          <div className="w-full md:w-[600px] mt-20 mx-auto rounded-md shadow-lg p-4 font-montserrat">
+          <div className="w-full md:w-[600px] mt-20 mx-auto rounded-md shadow-lg p-4 font-montserrat dark:bg-slate-800 dark:text-white">
             <form onSubmit={handleSubmit}>
               {isRegister ? (
                 <>
@@ -84,7 +111,9 @@ function Form() {
                   </h2>
                   <div className="flex space-x-2 mb-3 items-center justify-center">
                     <div className="w-full">
-                      <label className="text-gray-700 ">First Name</label>
+                      <label className="text-gray-700 dark:text-white">
+                        First Name
+                      </label>
                       <input
                         type="text"
                         name="firstName"
@@ -98,7 +127,9 @@ function Form() {
                       ) : null}
                     </div>
                     <div className="w-full">
-                      <label className="text-gray-700 ">Last Name</label>
+                      <label className="text-gray-700 dark:text-white">
+                        Last Name
+                      </label>
                       <input
                         type="text"
                         name="lastName"
@@ -113,7 +144,9 @@ function Form() {
                     </div>
                   </div>
                   <div className="mb-3">
-                    <label className="text-gray-700 ">Email</label>
+                    <label className="text-gray-700 dark:text-white">
+                      Email
+                    </label>
                     <input
                       type="email"
                       name="email"
@@ -127,7 +160,9 @@ function Form() {
                     ) : null}
                   </div>
                   <div className="mb-3">
-                    <label className="text-gray-700 ">Location</label>
+                    <label className="text-gray-700 dark:text-white">
+                      Location
+                    </label>
                     <input
                       type="text"
                       name="location"
@@ -141,7 +176,9 @@ function Form() {
                     ) : null}
                   </div>
                   <div className="mb-3">
-                    <label className="text-gray-700 ">Occupation</label>
+                    <label className="text-gray-700 dark:text-white">
+                      Occupation
+                    </label>
                     <input
                       type="text"
                       name="occupation"
@@ -155,7 +192,9 @@ function Form() {
                     ) : null}
                   </div>
                   <div className="mb-3">
-                    <label className="text-gray-700 ">Password</label>
+                    <label className="text-gray-700 dark:text-white">
+                      Password
+                    </label>
                     <input
                       type="text"
                       name="password"
@@ -173,13 +212,14 @@ function Form() {
                       htmlFor="profilePicture"
                       className="text-gray-700  cursor-pointer"
                     >
-                      <div className=" flex items-center justify-center border border-gray-500 rounded-md p-2">
+                      <div className=" flex items-center justify-center border dark:text-white border-gray-500 rounded-md p-2">
                         Add Profile Photo
                       </div>
                     </label>
                     <input
                       type="file"
                       id="profilePicture"
+                      name="profilePicture"
                       className="sr-only"
                       onChange={(e) => setImage(e.target.files[0])}
                     />
@@ -191,7 +231,9 @@ function Form() {
                     Sign In
                   </h2>
                   <div className="mb-3">
-                    <label className="text-gray-700 ">Email</label>
+                    <label className="text-gray-700 dark:text-white">
+                      Email
+                    </label>
                     <input
                       type="email"
                       name="email"
@@ -205,10 +247,12 @@ function Form() {
                     ) : null}
                   </div>
                   <div className="mb-3">
-                    <label className="text-gray-700 ">Password</label>
+                    <label className="text-gray-700 dark:text-white">
+                      Password
+                    </label>
                     <input
-                      type="email"
-                      name="email"
+                      type="text"
+                      name="password"
                       value={values.password}
                       className={formInputClass}
                       onChange={handleChange}
