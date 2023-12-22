@@ -35,6 +35,7 @@ function Friend({ friend }) {
   const profilePicture = friend?.profilePicture
     ? friend.profilePicture.secure_url
     : altImageAddress;
+  console.log(friend);
   return (
     <div className="flex items-center justify-between mb-2">
       <div className="flex items-center space-x-2">

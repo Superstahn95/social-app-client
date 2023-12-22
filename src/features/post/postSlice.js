@@ -22,9 +22,22 @@ const postSlice = createSlice({
       });
       state.posts = updatedPosts;
     },
+    commentOnPost: (state, action) => {
+      const { postId, comment } = action.payload;
+      //go through the posts and push the returned comment into the array of the post with the id
+      const post = state.posts.find((post) => post._id === postId);
+      console.log("This is our post being commented on.....");
+      console.log(post);
+      if (post) {
+        post.comments.unshift(comment);
+      }
+      console.log("reviewing states....");
+      console.log(JSON.parse(JSON.stringify(state.posts)));
+    },
   },
 });
 
-export const { getPosts, addPost, updatePost } = postSlice.actions;
+export const { getPosts, addPost, updatePost, commentOnPost } =
+  postSlice.actions;
 
 export default postSlice.reducer;

@@ -25,6 +25,9 @@ function Navbar({ isSignIn = false }) {
             {" "}
             SocialApp
           </Link>
+          <Link to={"/messenger"} className="text-white">
+            Go to messenger
+          </Link>
           <div>
             <Switch
               checked={darkMode}

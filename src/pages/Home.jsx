@@ -10,6 +10,8 @@ import useAuth from "../hooks/useAuth";
 function Home() {
   const { auth } = useAuth();
   const userId = auth?.user._id;
+  console.log("user id ....");
+  console.log(userId);
   return (
     <>
       <Navbar />

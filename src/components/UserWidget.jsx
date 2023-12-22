@@ -30,6 +30,8 @@ function UserWidget({ userId }) {
     }
   };
   useEffect(() => {
+    console.log("This is the user id");
+    console.log(userId);
     getUser();
   }, []);
   console.log(user);

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
+import Messenger from "./pages/Messenger";
 import RequireAuth from "./Route/RequireAuth";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route element={<RequireAuth />}>
           <Route path="/" element={<Home />} />
           <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/messenger" element={<Messenger />} />
         </Route>
         {/* <Route path="/" element={<Home />} />
         <Route path="/profile/:id" element={<Profile />} /> */}

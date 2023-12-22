@@ -11,6 +11,7 @@ import useAuth from "../hooks/useAuth";
 import { updatePost } from "../features/post/postSlice";
 import { setFriends } from "../features/friend/friendSlice";
 import CommentWidget from "./CommentWidget";
+import CommentForm from "./CommentForm";
 
 function PostWidget({ post }) {
   const { _id, description, comments, likes, image, userId, createdAt } = post;
@@ -125,23 +126,17 @@ function PostWidget({ post }) {
       {/* comment field  */}
       {isComments && (
         <div className="mt-2">
-          <CommentWidget />
-          <CommentWidget />
-          <CommentWidget />
-          <form action="" className="space-y-1">
-            <input
-              type="text"
-              className="border border-gray-500 outline-none p-2 w-full rounded-md dark:text-white dark:bg-slate-900"
-            />
-            <div className=" flex justify-end">
-              <button
-                type="submit"
-                className="rounded-md px-2 py-1 ml-[14rem] bg-blue-500 text-white dark:text-slate-900 dark:bg-white "
-              >
-                Place Comment
-              </button>
-            </div>
-          </form>
+          {post.comments.length < 1 || !post.comments ? (
+            <h2 className="text-xs">
+              There are currently no comments for this post
+            </h2>
+          ) : (
+            post.comments.map((comment) => (
+              <CommentWidget key={comment._id} comment={comment} />
+            ))
+          )}
+
+          <CommentForm postId={_id} />
         </div>
       )}
     </WidgetWrapper>
