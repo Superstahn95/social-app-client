@@ -6,12 +6,12 @@ import PostsWidget from "../components/PostsWidget";
 import AdvertWidget from "../components/AdvertWidget";
 import FriendListWidget from "../components/FriendListWidget";
 import useAuth from "../hooks/useAuth";
+import { useState, useEffect } from "react";
 
 function Home() {
   const { auth } = useAuth();
-  const userId = auth?.user._id;
-  console.log("user id ....");
-  console.log(userId);
+  // const userId = auth?.user._id;
+
   return (
     <>
       <Navbar />
@@ -27,7 +27,7 @@ function Home() {
           <div className="basis-[26%]">
             <AdvertWidget />
             <div className="mt-2">
-              <FriendListWidget userId={userId} />
+              <FriendListWidget userId={auth?.user._id} />
             </div>
           </div>
         </div>

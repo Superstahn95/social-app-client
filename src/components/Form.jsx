@@ -37,6 +37,7 @@ const errorClass = "text-red-500  text-xs capitalize";
 function Form() {
   const [pageType, setPageType] = useState("register");
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { setAuth } = useAuth(); //gotten from auth context to set the user
   const navigate = useNavigate();
   const location = useLocation();
@@ -47,6 +48,7 @@ function Form() {
   const isRegister = pageType === "register";
 
   const registerUser = async (values, onSubmitProps) => {
+    setLoading(true);
     const formData = new FormData();
     for (let value in values) {
       formData.append(value, values[value]);
@@ -54,31 +56,31 @@ function Form() {
     if (image) {
       formData.append("profilePicture", image);
     }
-    console.log("Submitting form....");
-    console.log(values);
+
     try {
       const response = await axiosInstance.post("/auth/register", formData);
-      console.log(response);
+      setLoading(false);
       setPageType("login");
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
   const loginUser = async (values, onSubmitProps) => {
-    console.log("Logging in....");
-    console.log(values);
+    setLoading(true);
     try {
       const response = await axiosInstance.post("/auth/login", values);
-      console.log(response);
 
       setAuth({
         user: response.data.user,
         token: response.data.token,
       });
+      setLoading(false);
       onSubmitProps.resetForm();
       navigate(from, { replace: true });
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -270,8 +272,16 @@ function Form() {
                 <button
                   type="submit"
                   className="w-full rounded-md p-2 bg-blue-500 text-white font-bold"
+                  disabled={loading}
                 >
-                  {isLogin ? "LOGIN" : "REGISTER"}
+                  {loading
+                    ? "Loading..."
+                    : pageType === "login"
+                    ? "LOGIN"
+                    : pageType === "register"
+                    ? "REGISTER"
+                    : ""}
+                  {/* {isLogin ? "LOGIN" : "REGISTER"} */}
                 </button>
               </div>
 

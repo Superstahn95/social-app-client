@@ -19,7 +19,7 @@ function FriendListWidget({ userId }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+
       dispatch(setFriends(response.data.friends));
     } catch (error) {
       console.log(error);

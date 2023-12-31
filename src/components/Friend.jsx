@@ -5,7 +5,7 @@ import { setFriends } from "../features/friend/friendSlice";
 import axiosInstance from "../api/axiosInstance";
 import useAuth from "../hooks/useAuth";
 
-function Friend({ friend }) {
+function Friend({ friend, isMessenger = false }) {
   const altImageAddress =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
@@ -26,7 +26,7 @@ function Friend({ friend }) {
           },
         }
       );
-      console.log(response.data);
+
       dispatch(setFriends(response.data.friends));
     } catch (error) {
       console.log(error);
@@ -35,7 +35,7 @@ function Friend({ friend }) {
   const profilePicture = friend?.profilePicture
     ? friend.profilePicture.secure_url
     : altImageAddress;
-  console.log(friend);
+
   return (
     <div className="flex items-center justify-between mb-2">
       <div className="flex items-center space-x-2">

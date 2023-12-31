@@ -58,14 +58,13 @@ function PostWidget({ post }) {
           },
         }
       );
-      console.log(response.data);
       //dispatch action to set friends here
       dispatch(setFriends(response.data.friends));
     } catch (error) {
       console.log(error);
     }
   };
-
+  // console.log(auth?.user._id == userId._id);
   return (
     <WidgetWrapper>
       <div className="flex items-center justify-between py-2 ">
@@ -81,16 +80,18 @@ function PostWidget({ post }) {
             <p className=" text-sm">20 Nov, 2023</p>
           </div>
         </div>
-        <button
-          onClick={addOrRemoveFriend}
-          className="bg-blue-200 rounded-full p-2"
-        >
-          {isFriend ? (
-            <FaUserMinus className="text-blue-400" />
-          ) : (
-            <FaUserPlus className="text-blue-400" />
-          )}
-        </button>
+        {auth?.user._id != userId._id && (
+          <button
+            onClick={addOrRemoveFriend}
+            className="bg-blue-200 rounded-full p-2"
+          >
+            {isFriend ? (
+              <FaUserMinus className="text-blue-400" />
+            ) : (
+              <FaUserPlus className="text-blue-400" />
+            )}
+          </button>
+        )}
       </div>
 
       <div>

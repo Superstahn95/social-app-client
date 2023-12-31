@@ -17,7 +17,7 @@ function PostsWidget({ userId, isProfile = false }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+
       dispatch(getPosts(response.data.posts));
     } catch (error) {
       console.log(error);
@@ -30,7 +30,7 @@ function PostsWidget({ userId, isProfile = false }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+
       dispatch(getPosts(response.data.posts));
     } catch (error) {
       console.log(error);
@@ -44,7 +44,6 @@ function PostsWidget({ userId, isProfile = false }) {
       fetchPosts();
     }
   }, []);
-  console.log(posts);
 
   return (
     <>
